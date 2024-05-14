@@ -6,7 +6,9 @@ function Link({ to: destination, children }) {
 
   function handleChange(e) {
     e.preventDefault();
-    setCurrentURL((prev) => new URL(destination, prev.origin));
+    const url = currentURL.origin + destination;
+    history.pushState(url, null, url);
+    setCurrentURL(new URL(url));
   }
 
   return (

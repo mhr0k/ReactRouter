@@ -6,11 +6,13 @@ function BrowserRouter({ children }) {
   const [currentURL, setCurrentURL] = useState(new URL(window.location.href));
 
   useEffect(() => {
-    console.log(currentURL);
-    history.pushState(currentURL.pathname, "", currentURL.pathname);
-  }, [currentURL]);
+    function handlePopstate(e) {
+      setCurrentURL(new URL(e.state));
+    }
 
-  useEffect(() => {}, []);
+    window.addEventListener("popstate", handlePopstate);
+    return () => window.removeEventListener("popstate", handlePopstate);
+  }, []);
 
   return (
     <Router.Provider value={[currentURL, setCurrentURL]}>
